@@ -1,0 +1,8 @@
+# Ativar o mecanismo de reescrita
+RewriteEngine On
+RewriteBase /sysmeal/
+
+# Se não for arquivo ou diretório existente, redireciona para index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ index.php?param=$1 [QSA,L]
