@@ -2,36 +2,29 @@
 // controller/HomeController.php
 namespace controller;
 
-use template\HomeTemplate;
 use Exception;
-use PDOException;
+use service\DashboardService;
+use template\HomeTemplate;
 
-class HomeController {
-    private $template;
-    
-    public function __construct() {
-        $this->template = new HomeTemplate();
+class HomeController
+{
+    private DashboardService $dashboardService;
+    private HomeTemplate $homeTemplate;
+
+    public function __construct()
+    {
+        $this->dashboardService = new DashboardService();
+        $this->homeTemplate = new HomeTemplate();
     }
-    
-    public function index() {
+
+    // Página inicial (dashboard)
+    public function index()
+    {
         try {
-            // Buscar estatísticas gerais
-            $stats = $this->getEstatisticas();
-            $this->template->dashboard($stats);
+            $stats = $this->dashboardService->getEstatisticas();
+            $this->homeTemplate->dashboard($stats);
         } catch (Exception $e) {
-            $this->template->erro($e->getMessage());
+            $this->homeTemplate->erro($e->getMessage());
         }
-    }
-    
-    private function getEstatisticas() {
-        $stats = [];
-        try {
-            
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar estatísticas: " . $e->getMessage());
-        }
-        
-        return $stats;
     }
 }
-?>
